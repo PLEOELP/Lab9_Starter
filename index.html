@@ -91,17 +91,118 @@
     let form = document.querySelector('form');
     form.addEventListener('submit', e => {
       e.preventDefault();
-      let output = document.querySelector('output');
-      let firstNum = document.querySelector('#first-num').value;
-      let secondNum = document.querySelector('#second-num').value;
-      let operator = document.querySelector('#operator').value;
-      output.innerHTML = eval(`${firstNum} ${operator} ${secondNum}`);
+
+      class ValidationError extends Error {
+        constructor(message) {
+          super(message); 
+          this.name = "ValidationError"; 
+        }
+      }
+
+      try {
+        let output = document.querySelector('output');
+        let firstNum = document.querySelector('#first-num').value;
+        let secondNum = document.querySelector('#second-num').value;
+        let operator = document.querySelector('#operator').value;        
+        output.innerHTML = eval(`${firstNum} ${operator} ${secondNum}`);
+      } catch (error) {
+        alert(error.name)
+        if (error.name == 'SyntaxError'){
+          alert("Input contains invalid syntax");
+          throw new SyntaxError("Input contains invalid syntax");
+        }
+        else if (error.name == 'ReferenceError'){
+          alert("Invalid Input");
+          throw new ValidationError("Please type in numbers");       
+        }
+      } finally {
+        console.info("Done");
+      }
+
     });
 
     let errorBtns = Array.from(document.querySelectorAll('#error-btns > button'));
 
     // Start your code here
     // You may move this JS to another file if you wish
+
+    const label = "label";
+
+
+    errorBtns[0].addEventListener('click', (event) => {
+      console.log('console.log');
+    });
+
+    errorBtns[1].addEventListener('click', (event) => {
+      console.error('console.error');
+    });    
+
+    errorBtns[2].addEventListener('click', (event) => {
+      console.count();
+    }); 
+
+    errorBtns[3].addEventListener('click', (event) => {
+      console.warn('console.warn');
+    });
+
+    errorBtns[4].addEventListener('click', (event) => {
+      console.assert(1 < 2);
+    });    
+
+    errorBtns[5].addEventListener('click', (event) => {
+      console.clear();
+    });    
+
+    errorBtns[7].addEventListener('click', (event) => {
+      console.dirxml(document);
+    });
+    
+    errorBtns[8].addEventListener('click', (event) => {
+      console.group(label);
+      console.info('0');
+      console.info('1');
+      console.info('2');
+      console.info('3');
+    });
+
+    errorBtns[9].addEventListener('click', (event) => {
+      console.groupEnd(label);
+    });
+
+    errorBtns[10].addEventListener('click', (event) => {
+      console.table(["a", "o", "c"]);
+    });    
+    
+    errorBtns[11].addEventListener('click', (event) => {
+      console.time();
+    });
+
+    errorBtns[12].addEventListener('click', (event) => {
+      console.timeEnd();
+    });
+    
+    errorBtns[13].addEventListener('click', (event) => {
+      console.trace();
+    });  
+    
+
+    errorBtns[14].addEventListener('click', function() {
+      const null_query = document.querySelector('table');
+      console.log(null_query.innerHTML);
+    })    
+
+    if (window.onerror) {
+      console.log('There is an error.');
+    }
+  </script>
+
+  <script src="https://cdn.trackjs.com/agent/v3/latest/t.js"></script>
+  <script>
+    window.TrackJS && TrackJS.install({ 
+      token: "422d8a5936654c80a70bdf16733613d9"
+      // for more configuration options, see https://docs.trackjs.com
+    });
+    TrackJS.track('Testing TrackJS!');
   </script>
 </body>
 
